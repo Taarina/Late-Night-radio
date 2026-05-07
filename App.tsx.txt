@@ -1,0 +1,17 @@
+import { useState } from "react";
+import EmailGate from "./components/EmailGate";
+import MoodScreen from "./components/MoodScreen";
+
+export default function App() {
+  const [entered, setEntered] = useState(false);
+
+  return (
+    <>
+      {!entered ? (
+        <EmailGate onUnlock={() => setEntered(true)} />
+      ) : (
+        <MoodScreen />
+      )}
+    </>
+  );
+}
