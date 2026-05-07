@@ -1,0 +1,96 @@
+import { useState } from "react";
+import { saveVisitor } from "../lib/api";
+
+interface Props {
+  onUnlock: () => void;
+}
+
+export default function EmailGate({ onUnlock }: Props) {
+  const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!name.trim()) return;
+
+    try {
+      setLoading(true);
+
+      await saveVisitor(name);
+
+      onUnlock();
+
+    } catch (err) {
+      console.error(err);
+      alert("Could not enter.");
+
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "#090909",
+      }}
+    >
+      <form
+        onSubmit={submit}
+        style={{
+          width: "400px",
+          textAlign: "center",
+        }}
+      >
+        <h1
+          style={{
+            fontSize: "3rem",
+            marginBottom: "1rem",
+          }}
+        >
+          Late Night Radio
+        </h1>
+
+        <p
+          style={{
+            marginBottom: "2rem",
+            opacity: 0.7,
+          }}
+        >
+          Leave your name at the door.
+        </p>
+
+        <input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="your name"
+          style={{
+            width: "100%",
+            padding: "1rem",
+            border: "1px solid #444",
+            marginBottom: "1rem",
+          }}
+        />
+
+        <button
+          type="submit"
+          disabled={loading}
+          style={{
+            width: "100%",
+            padding: "1rem",
+            border: "none",
+            background: "white",
+            color: "black",
+          }}
+        >
+          {loading ? "Entering..." : "Enter"}
+        </button>
+      </form>
+    </div>
+  );
+}
