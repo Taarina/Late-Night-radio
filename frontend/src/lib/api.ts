@@ -1,4 +1,4 @@
-const API_BASE = "http://127.0.0.1:8000";
+const API_BASE = "https://late-night-radio.onrender.com";
 
 export async function saveVisitor(name: string) {
   const response = await fetch(`${API_BASE}/visitors`, {
