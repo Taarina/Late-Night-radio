@@ -1,0 +1,56 @@
+import { useState } from "react";
+import { saveThought } from "../lib/api";
+
+export default function ThoughtInput() {
+  const [thought, setThought] = useState("");
+
+  const submit = async () => {
+    if (!thought.trim()) return;
+
+    try {
+      await saveThought(thought);
+
+      setThought("");
+
+      alert("Thought sent into the night.");
+
+    } catch (err) {
+      console.error(err);
+      alert("Could not send thought.");
+    }
+  };
+
+  return (
+    <div
+      style={{
+        width: "100%",
+        maxWidth: "600px",
+      }}
+    >
+      <input
+        value={thought}
+        onChange={(e) => setThought(e.target.value)}
+        placeholder="Something only the night knows..."
+        style={{
+          width: "100%",
+          padding: "1rem",
+          border: "1px solid #444",
+          marginBottom: "1rem",
+        }}
+      />
+
+      <button
+        onClick={submit}
+        style={{
+          width: "100%",
+          padding: "1rem",
+          border: "none",
+          background: "white",
+          color: "black",
+        }}
+      >
+        Send Thought
+      </button>
+    </div>
+  );
+}
